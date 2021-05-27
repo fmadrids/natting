@@ -1,0 +1,59 @@
+# ipsec.conf - strongSwan IPsec configuration file
+
+# basic configuration
+
+config setup
+	charondebug = 2
+	# uniqueids = no
+
+# Add connections here.
+
+conn %default
+	auto = start
+	compress = yes
+	mark = 42
+	authby = secret
+
+conn Company
+	keyexchange = ikev2
+	keyingtries = %forever
+
+	# Tunnel endpoints
+	left = <local private ip address>
+	right = <remote ip address>
+
+	## Phase 1 Authentication method
+	leftauth = psk
+	rightauth = psk
+
+	## Phase 1 Proposal
+	# Encryption Algorithm -> AES128
+	# Hash Algorithm       -> SHA1
+	# DH Group             -> 2 (1024)
+	ike = aes128-sha256-modp1024!
+
+	rekey = yes
+
+	# Lifetime
+	ikelifetime = 86400s
+
+	# Dead peer detection
+	dpdaction = hold
+	dpddelay = 30s
+
+	## Phase 2 General information
+	type = tunnel
+
+	# Local network (not the real one, but the one offered to client/SaaS)
+	leftsubnet = 192.168.254.0/24
+
+	## Phase 2 Proposal
+	# Encryption Algorithm -> AES128
+	# Hash Algorithm       -> SHA1
+	# DH Group             -> 2 (1024)
+	esp = aes128-sha256-modp1024!
+
+	reauth = yes
+
+	# Remote network (client network)
+	rightsubnet = <network>/<mask>

@@ -1,0 +1,36 @@
+##### Net and VPN configs
+vpnpsk="<VPN shared secret>"
+
+# Client subnet (not the real one, but the one offered to SaaS)
+# By default the same as virtualcltnet. Only change it if absolutely necessary.
+#virtualcltnet="192.168.254.0/24"
+
+# Intermediate subnet (the one used to double-nat the traffic)
+# This network is created/used in the local network namespace
+natnet="192.168.255.0/30"
+
+##### Service Mapping
+# Client access to SaaS
+c2sOfferedIPs=()
+c2sRealIPs=()
+
+# SaaS access to client
+s2cOfferedIPs=()
+s2cRealIPs=()
+
+##### Other names
+# Namespace name (no need to change it)
+natns="landingNS"
+
+# IPtable chain names
+s2cForwardChainname="s2cFORWARD"
+c2sForwardChainname="c2sFORWARD"
+s2cPreroutingChainname="s2cPREROUTING"
+c2sPreroutingChainname="c2sPREROUTING"
+
+# Interface names (no need to change them)
+baseveth="veth"
+basevti="vtiNAT"
+
+# Traffic mark. Must be the same configured in Strongswan
+mark="42"

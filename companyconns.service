@@ -1,0 +1,13 @@
+[Unit]
+Description=Connections configuration
+After=network-online.target companyenv.service strongswan.service
+Requires=network-online.target companyenv.service strongswan.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/natting poststart
+ExecStop=/usr/sbin/natting stopconns
+
+[Install]
+WantedBy=multi-user.target

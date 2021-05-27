@@ -1,0 +1,16 @@
+[Unit]
+Description=Namespace and IPtables configuration
+Before=strongswan.service
+After=network-online.target
+Requires=network-online.target
+AssertPathExists=/etc/company/natting/iaas.secret
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/natting prestart
+ExecStop=/usr/sbin/natting stop
+
+[Install]
+WantedBy=multi-user.target
+RequiredBy=strongswan.service
